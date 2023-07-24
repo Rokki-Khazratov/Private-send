@@ -7,7 +7,7 @@ from .models import Message
 from .serializers import MessageSerializer
 
 
-class MessageListCreateView(ListCreateAPIView):
+class MessageListCreateView(generics.ListCreateAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
 
@@ -21,3 +21,7 @@ class MessageListCreateView(ListCreateAPIView):
         slug = self.generate_random_slug()
         serializer.save(slug=slug)
 
+class MessageRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+    lookup_field = 'slug'
