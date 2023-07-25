@@ -9,5 +9,5 @@ class MessageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def generate_random_slug(self):
-        length = 6
+        length = 8
         chars = string.ascii_letters + string.digits
