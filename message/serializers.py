@@ -1,7 +1,12 @@
 import random
 import string
 from rest_framework import serializers
-from .models import Message
+from .models import Message,Content
+
+class ContentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Content
+        fields = '__all__'
 
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:

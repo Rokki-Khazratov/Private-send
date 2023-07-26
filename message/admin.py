@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Message
+from .models import Message,Content
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
@@ -12,3 +12,9 @@ class MessageAdmin(admin.ModelAdmin):
         return preview + '...' if len(obj.text.split()) > 5 else preview
 
     get_text_preview.short_description = 'text Preview'
+
+@admin.register(Content)
+class ContentAdmin(admin.ModelAdmin):
+    list_display = ['title','id']
+    search_fields = ['title']
+    prepopulated_fields = {'slug': ('title',)}

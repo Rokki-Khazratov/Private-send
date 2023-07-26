@@ -20,3 +20,11 @@ class Message(models.Model):
 def auto_delete_message(sender, instance, **kwargs):
     if instance.is_read:
         instance.delete()
+
+class Content(models.Model):
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True)
+    info = models.TextField()
+
+    def __str__(self):
+        return self.title

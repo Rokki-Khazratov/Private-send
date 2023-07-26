@@ -3,8 +3,8 @@ import string
 from django.shortcuts import render
 from rest_framework import generics,status
 from rest_framework.response import Response
-from .models import Message
-from .serializers import MessageSerializer
+from .models import Message,Content
+from .serializers import MessageSerializer,ContentSerializer
 
 
 class MessageListCreateView(generics.ListCreateAPIView):
@@ -26,7 +26,7 @@ class MessageRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MessageSerializer
     lookup_field = 'slug'
 
-    
+
 class MarkAsReadView(generics.UpdateAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
@@ -42,3 +42,13 @@ class MarkAsReadView(generics.UpdateAPIView):
         instance.save()
         serializer = self.get_serializer(instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ContentListCreateView(generics.ListCreateAPIView):
+    queryset = Content.objects.all()
+    serializer_class = ContentSerializer
+
+class ContentRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Content.objects.all()
+    serializer_class = ContentSerializer
+    lookup_field = 'slug'
