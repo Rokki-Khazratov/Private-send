@@ -1,7 +1,7 @@
 import random
 import string
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics,status
 from rest_framework.response import Response
 from .models import Message
 from .serializers import MessageSerializer
@@ -25,3 +25,20 @@ class MessageRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
     lookup_field = 'slug'
+
+    
+class MarkAsReadView(generics.UpdateAPIView):
+    queryset = Message.objects.all()
+    serializer_class = MessageSerializer
+    lookup_field = 'pk'  # Устанавливаем lookup_field на 'pk', чтобы использовать его для поиска сообщения
+
+    def update(self, request, *args, **kwargs):
+        """
+        Метод update выполняется при HTTP-запросе типа PUT или PATCH.
+        Здесь мы отмечаем сообщение как прочитанное, устанавливая значение is_read в True.
+        """
+        instance = self.get_object()
+        instance.is_read = True
+        instance.save()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)

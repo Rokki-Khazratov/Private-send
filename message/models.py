@@ -16,7 +16,7 @@ class Message(models.Model):
         if self.is_read:
             self.delete()
 
-@receiver(post_save, sender=Message)
+@receiver(post_save, sender=Message)    
 def auto_delete_message(sender, instance, **kwargs):
     if instance.is_read:
         instance.delete()
